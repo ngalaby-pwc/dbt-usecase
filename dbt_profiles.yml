@@ -1,0 +1,12 @@
+# dbt_profile.yml
+
+default:
+  outputs:
+    dev:
+      type: databricks
+      method: none
+      database: your_database_name
+      schema: public
+      threads: 1
+      host: your_databricks_workspace_url
+      token: your_databricks_access_token
