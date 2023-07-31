@@ -22,7 +22,7 @@ jobs:
         python-version: '3.x'
 
     - name: Install dbt
-      run: pip install dbt
+      run: pip install dbt-databricks
 
     - name: Run dbt tests
       run: dbt test
