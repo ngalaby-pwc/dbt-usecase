@@ -1,0 +1,38 @@
+# .github/workflows/cd.yml
+
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy dbt models
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dbt
+      run: pip install dbt
+
+    - name: Run dbt run
+      run: dbt run --models +*
+
+    - name: Run dbt docs generate
+      run: dbt docs generate
+
+    - name: Deploy dbt docs
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: "_docs"
